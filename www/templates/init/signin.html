@@ -1,0 +1,23 @@
+<ion-view>
+    <ion-content>
+        <h2 style="margin-top: 50px" class="centered">Crea una cuenta</h2>
+        <form name="signinForm">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Campo</span>
+                <input ng-model="user.campo" type="text" placeholder="Campo">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Contraseña</span>
+                <input required ng-model="user.pass" type="password" placeholder="Contraseña">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Confirma tu contraseña</span>
+                <input required ng-model="user.passcon" type="password" placeholder="Confirma tu contraseña">
+            </label>
+        </form>
+        <button ng-disabled="(user.pass != user.passcon) || (!signinForm.$valid)" ng-click="create()" class="button button-block button-calm">
+            Crear cuenta
+        </button>
+    </ion-content>
+</ion-view>
+    

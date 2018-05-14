@@ -1,7 +1,11 @@
-﻿app.controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout) {
+﻿app.controller('AppCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout, Auth, $state, userData) {
     // Form data for the login modal
+    $scope.status = '  ';
+    $scope.customFullscreen = true;
     $scope.loginData = {};
+    $scope.userData = userData
 
+    // Auth.$getAuth()
     var navIcons = document.getElementsByClassName('ion-navicon');
     for (var i = 0; i < navIcons.length; i++) {
         navIcons.addEventListener('click', function () {
@@ -29,4 +33,11 @@
     $scope.$on('$destroy', function () {
         $scope.popover.remove();
     });
+
+    $scope.logout = function () {
+        Auth.$signOut().then(function() {
+            $window.location.reload()
+        })
+    }
+
 });

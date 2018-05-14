@@ -1,20 +1,25 @@
 ﻿
-<ion-view view-title="MyJobs">
-        <button ng-click="fab()" class="button button-positive button-fab button-fab-bottom-right">
+<ion-view view-title="Empresas">
+        <!-- <button ng-click="fab()" class="button button-positive button-fab button-fab-bottom-right">
             <i class="icon ion-search"></i>
-        </button>
+        </button> -->
         <ion-content>
-            <div class="bar bar-subheader bar-stable static text-center">
-                <strong class="title">Empresas</strong>
+            <div class="bar bar-subheader bar-stable static text-center bar-search">
+                <!-- <strong class="title">Search</strong> -->
+                <div layout="row">
+                    <md-input-container class="search" flex="100">
+                    <label>Nombre</label>
+                    <input name="clientName" ng-model="search.name">
+                    </md-input-container>
             </div>
-            <div class="im-wrapper">
+            <div class="im-wrapper" ng-click="showCompany(company.user_id)" ng-repeat="company in users | filter:{is_company:'true'} | filter:search">
                 <!-- List view -->
-                <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="fab()">
+                <ion-item nav-clear menu-close class="item-icon-right item-avatar item-left">
                     <img src="img/material4.jpg">
-                    <h2>Empresa</h2>
-                    <p>Nombre de la empresa</p>
+                    <h2>Empresa:</h2>
+                    <p><strong>{{company.name}}</strong></p>
                     <!--<i class="icon ion-chatbubble muted"></i>-->
                 </ion-item>
             </div>
         </ion-content>
-    </ion-view>
+</ion-view>

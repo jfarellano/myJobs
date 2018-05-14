@@ -2,62 +2,72 @@
 <ion-view view-title="MyJobs">
     <ion-content>
         <div class="bar bar-subheader bar-stable static text-center">
-            <strong class="title">Empresa</strong>
+            <strong class="title">{{user.name | titleCase}}</strong>
         </div>
         <div class="im-wrapper">
-            <div class="row">
-                <div class="col-25"></div>
-                <div class="col-50">
-                        <h4 class="border-top centered">{{company.name}} Company</h4>
-                </div>
-                <div class="col-25"></div>                    
-            </div>
-            <div class="row">
-                <div class="col-25"></div>
-                <div class="col-50">
-                    <h5 class="centered"><b>Email:</b> {{company.email}}</h5>
-                </div>
-                <div class="col-25"></div>                    
-            </div>
             <!-- <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
-                    <h5 class="centered">Telefono: {{company.phone}}</h5>
-                </div>
-                <div class="col-25"></div>                    
-            </div> -->
-            <!-- <div class="row">
-                <div class="col-25"></div>
-                <div class="col-50">
-                    <h5 class="centered">Dirección: {{company.address}}</h5>
+                        <h4 class="border-top centered">{{user.name}}</h4>
                 </div>
                 <div class="col-25"></div>                    
             </div> -->
             <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
-                    <h5 class="centered"><b>Descripción:</b> {{company.company_description}}</h5>
+                    <h4 class="centered">Name: {{user.name}}</h4>
                 </div>
                 <div class="col-25"></div>                    
             </div>
             <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
-                    <h5 class="centered"><b>Dirección de contacto:</b> {{company.address}}</h5>
+                    <h4 class="centered">Username: {{user.username}}</h4>
                 </div>
                 <div class="col-25"></div>                    
             </div>
             <div class="row">
                 <div class="col-25"></div>
                 <div class="col-50">
-                    <h5 class="centered"><b>Teléfono de contacto:</b> {{company.phone}}</h5>
+                    <h4 class="centered">Email: {{user.email}}</h4>
                 </div>
                 <div class="col-25"></div>                    
             </div>
-
-            <ion-item nav-clear menu-close class="item-icon-right item-avatar item-profile" ng-click="auth()" ng-repeat="job in perfilJobs">
+            <div class="row">
+                <div class="col-25"></div>
+                <div class="col-50">
+                    <h4 class="centered">Carrera: {{user.career | careerDisplay | titleCase}}</h4>
+                </div>
+                <div class="col-25"></div>                    
+            </div>
+            <div class="row">
+                <div class="col-25"></div>
+                <div class="col-50">
+                    <h4 class="centered">Semestre: {{user.semester}}</h4>
+                </div>
+                <div class="col-25"></div>                    
+            </div>
+            <!-- <div class="row">
+                <div class="col-25"></div>
+                <div class="col-50">
+                    <p class="centered"><b>Descripción:</b> {{user.company_description}}</p>
+                </div>
+                <div class="col-25"></div>                    
+            </div> -->
+            <h4 class="border-top centered"><i class="icon ion-ios-paper"></i>Historial de trabajo</h4>
+            <div ng-if="perfilJobs.length == 0">
+                <ion-item nav-clear menu-close class="item-icon-right item-avatar">
                     <img src="img/material4.jpg">
-                    <!-- <h2><strong>{{job.name}}</strong></h2> -->
+                    <h2>No one yet</h2>
+                    <!-- <p>Cargo <br> -->
+                        <!-- Inicio: 12/12/12, Fin 12/12/13</p> -->
+                </ion-item>
+                <br>
+            </div>
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar item-profile" ng-click="auth()" ng-if="perfilJobs.length > 0" ng-repeat="job in perfilJobs">
+                    <img src="img/material4.jpg">
+                    <h2><strong>{{job.name}} Company</strong></h2>
+                    <!-- <h4><strong>{{job.description}}</strong></h4> -->
                     <h4><strong>{{job.description}}</strong></h4>
                     <h4>{{job.career | careerDisplay | titleCase}}</h4>
                     <p>Nombre de contacto: {{job.contact_name}}</p>
@@ -66,11 +76,6 @@
                     <p>Vacantes: {{job.vacants}}</p>
                     <p>Contratados: {{job.hired_users}}</p>
                     <p>Inicio: {{job.start_date}}, Fin: {{job.end_date}}</p>
-                    <div class="item tabs tabs-secondary tabs-icon-left" ng-if="!userData.is_company && (!job.working && !job.applying) && (job.hired_users < job.vacants)">
-                            <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"  >
-                                <i class="icon ion-android-checkbox-outline" ng-click="apply(job)"></i> Aplicar
-                            </a>
-                    </div>
             </ion-item>
         </div>
     </ion-content>

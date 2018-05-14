@@ -2,20 +2,95 @@
     <ion-content>
         <h2 style="margin-top: 50px" class="centered">Crea una cuenta</h2>
         <form name="signinForm">
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Campo</span>
-                <input ng-model="user.campo" type="text" placeholder="Campo">
-            </label>
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Contraseña</span>
-                <input required ng-model="user.pass" type="password" placeholder="Contraseña">
-            </label>
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Confirma tu contraseña</span>
-                <input required ng-model="user.passcon" type="password" placeholder="Confirma tu contraseña">
-            </label>
+            
+            <md-input-container class="md-block">
+                    <md-switch class="md-primary" name="company" ng-model="user.is_company">
+                        Is company
+                    </md-switch>
+                    <!-- <div ng-messages="projectForm.special.$error" multiple>
+                        <div ng-message="required">
+                        You must enable all special options before you can proceed.
+                        </div>
+                    </div> -->
+            </md-input-container>
+            <div layout-gt-sm="row" ng-if="user.is_company == true">
+                <md-input-container  class="md-block" flex-gt-sm>
+                    <label>Company description</label>
+                    <textarea name="description" ng-model="user.company_description"></textarea>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Username</label>
+                    <input ng-model="user.username" type="text">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Email</label>
+                    <input ng-model="user.email" type="email">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Name</label>
+                    <input class="md-input" name="name" ng-model="user.name" type="text">
+                </md-input-container>
+                <md-input-container class="md-block" ng-if="!user.is_company" flex-gt-sm>
+                    <label>Lastname</label>
+                    <input class="md-input" name="lastname" ng-model="user.lastname" type="text">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row" ng-if="user.is_company">
+                    <md-input-container class="md-block md-icon-float  md-icon-left" flex-gt-sm>
+                        <md-icon class="ion ion-android-call icon-big"></md-icon>
+                        <input name="contactPhone" ng-model="user.phone" type="text" placeholder="Phone Number">
+                    </md-input-container>
+                    <md-input-container class="md-block md-icon-float  md-icon-left" flex-gt-sm>
+                            <md-icon class="ion ion-ios-location icon-big" style="display:inline-block;"></md-icon>
+                            <input ng-model="user.address" type="text" placeholder="Address" >
+                    </md-input-container>
+            </div>
+            <div layout-gt-sm="row" ng-if="user.is_company" > 
+            </div>
+            <div layout-gt-sm="row" ng-if="!user.is_company">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Career</label>
+                    <md-select name="type" ng-model="user.career">
+                        <md-option value="{{key}}" ng-repeat="(key,val) in careers">{{key | careerDisplay | titleCase}}</md-option>
+                    </md-select>
+                </md-input-container>
+                
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Semester</label>
+                    <md-select name="type" ng-model="user.semester">
+                        <md-option value="1">1</md-option>
+                        <md-option value="2">2</md-option>
+                        <md-option value="3">3</md-option>
+                        <md-option value="4">4</md-option>
+                        <md-option value="5">5</md-option>
+                        <md-option value="6">6</md-option>
+                        <md-option value="7">7</md-option>
+                        <md-option value="8">8</md-option>
+                        <md-option value="9">9</md-option>
+                        <md-option value="10">10</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Contraseña</label>
+                    <input ng-model="user.password" type="password">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Confirmar contraseña</label>
+                    <input ng-model="user.confirmPassword" type="password">
+                </md-input-container>
+            </div>
         </form>
-        <button ng-disabled="(user.pass != user.passcon) || (!signinForm.$valid)" ng-click="create()" class="button button-block button-calm">
+        <button ng-disabled="(user.password != user.confirmPassword) || (!signinForm.$valid)" ng-click="create()" class="button button-block button-calm">
             Crear cuenta
         </button>
     </ion-content>

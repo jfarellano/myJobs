@@ -1,0 +1,82 @@
+
+<ion-view view-title="Usuarios">
+        <!-- <button ng-click="showAdvanced(event)" class="button button-positive button-fab button-fab-bottom-right">
+            <i class="icon ion-search"></i>
+        </button> -->
+        <ion-content>
+            <div class="bar bar-subheader bar-stable static text-center bar-search">
+                <!-- <strong class="title">Search</strong> -->
+                <div layout="row">
+                    <md-input-container class="search" flex="30">
+                    <label>Nombres</label>
+                    <input name="clientName" ng-model="search.name">
+                    </md-input-container>
+                    <md-input-container class="search" flex="30">
+                    <label>Apellidos</label>
+                    <input name="clientName" ng-model="search.lastname">
+                    </md-input-container>
+
+                    <md-input-container class="search" flex="30">
+                    <label>Carrera</label>
+                    <md-select name="type" ng-model="search.career">
+                        <md-option ng-value="undefined">Todas</md-option>
+                        <md-option ng-value="key" ng-repeat="(key,val) in careers">{{key | careerDisplay | titleCase}}</md-option>
+                    </md-select>
+                    </md-input-container>
+                    <md-input-container class="search" flex="30">
+                    <label>Semestre</label>
+                    <md-select name="type" ng-model="search.semester">
+                            <md-option ng-value="undefined">Todos</md-option>
+                            <md-option ng-value="1">1</md-option>
+                            <md-option ng-value="2">2</md-option>
+                            <md-option ng-value="3">3</md-option>
+                            <md-option ng-value="4">4</md-option>
+                            <md-option ng-value="5">5</md-option>
+                            <md-option ng-value="6">6</md-option>
+                            <md-option ng-value="7">7</md-option>
+                            <md-option ng-value="8">8</md-option>
+                            <md-option ng-value="9">9</md-option>
+                            <md-option ng-value="10">10</md-option>
+                    </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+            <div class="im-wrapper">
+                <h4 class="border-top centered" ng-if="!Object.keys(suggestedFriends).length === 0"><i class="icon ion-ios-paper"></i>Amigos sugeridos</h4>
+                <ion-item nav-clear menu-close class="item-icon-right item-avatar item-profile" ng-click="auth()" ng-if="!Object.keys(suggestedFriends).length === 0"  ng-repeat="friend in suggestedFriends">
+                        <img src="img/material4.jpg">
+                        <h2><strong>{{job.name}} Company</strong></h2>
+                        <!-- <h4><strong>{{job.description}}</strong></h4> -->
+                        <h4><strong>{{job.description}}</strong></h4>
+                        <h4>{{job.career | careerDisplay | titleCase}}</h4>
+                        <p>Nombre de contacto: {{job.contact_name}}</p>
+                        <p>Teléfono: {{job.contact_phone}}</p>
+                        <p>Salario: {{job.salary}}  &dollar;</p>
+                        <p>Vacantes: {{job.vacants}}</p>
+                        <p>Contratados: {{job.hired_users}}</p>
+                        <p>Inicio: {{job.start_date}}, Fin: {{job.end_date}}</p>
+                </ion-item>
+                <!-- List view -->
+                <div class="im-wrapper" ng-repeat="user in users | filter: {is_company:'false'} |filter:search" ng-if="user.user_id != userData.user_id">
+                        <!-- List view -->
+                        <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="showProfile(user.user_id)">
+                            <img src="img/material4.jpg">
+                            <div class="friend-label"  ng-if="user.friend">
+                                <span >Amigo</span>              
+                            </div>    
+                            <h2>{{user.name}}</h2>
+                            <h4>{{user.career | careerDisplay | titleCase}}</h4>
+                            <h4>{{user.semestre}}</h4>
+                            <!-- <h4>{{userFriends}}</h4> -->
+                            <!-- <p>Mensaje del amigo</p> -->
+                            <!--<i class="icon ion-chatbubble muted"></i>-->
+                            <button ng-click="showConfirm(event, user)" class="button button-positive button-fab button-fab-bottom-right button-add-friend"
+                            ng-disabled="user.friend">
+                                    <i class="icon ion-plus"></i>
+                            </button>
+                        </ion-item>
+                </div>
+            </div>
+        </ion-content>
+    </ion-view>
+    

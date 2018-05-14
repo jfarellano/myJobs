@@ -1,0 +1,92 @@
+<md-dialog>
+   
+    <form ng-cloak>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Create job ofert</h2>
+          <!-- <h2>Update your e-mail {{questList}}</h2> -->
+          <!-- <h2>Update your e-mail {{perfilData}}</h2> -->
+          <span flex></span>
+          <!-- <md-button class="md-icon-button" ng-click="cancel()">
+            <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+          </md-button> -->
+        </div>
+      </md-toolbar>
+  
+      <md-dialog-content>
+        <div class="md-dialog-content">
+          <!-- <form name="userForm"> -->
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Job ofert name</label>
+                <input class="md-input" name="name" ng-model="ofert.name" type="text">
+              </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container  class="md-block" flex-gt-sm>
+                    <label>Job ofert description</label>
+                    <textarea name="description" ng-model="ofert.description"></textarea>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Career</label>
+                    <md-select name="type" ng-model="ofert.career">
+                        <md-option value="{{career.$id}}" ng-repeat="career in careers">{{career.$id | careerDisplay | titleCase}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Contact name</label>
+                <input class="md-input" name="contactName" ng-model="ofert.contact_name" type="text">
+              </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block md-icon-float  md-icon-left" flex-gt-sm>
+                    <md-icon class="ion ion-android-call icon-big"></md-icon>
+                    <input name="contactPhone" ng-model="ofert.contact_phone" type="text" placeholder="Phone Number">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Start date</label>
+                <md-datepicker name="startDate" md-min-date="ofert.start_date" ng-change="moveDate()" ng-model="ofert.start_date"></md-datepicker>
+              </md-input-container>
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>End date</label>
+                <md-datepicker name="endDate" md-min-date="ofert.start_date" ng-model="ofert.end_date"></md-datepicker>
+              </md-input-container>
+            </div>
+            <!-- <div layout-gt-sm="row">
+            </div> -->
+            <div layout-gt-sm="row">
+                  <md-input-container class="md-icon-float md-icon-right md-block" flex-gt-sm>
+                    <label>Salary</label>
+                    <md-icon class="ion ion-cash icon-big"></md-icon>
+                    <input name="salary" ng-model="ofert.salary" type="number" min="0" step="0.01">
+                    <md-icon class="ion ion-social-usd icon-big"></md-icon>
+                  </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                  <md-input-container class="md-icon-float md-icon-left md-block" flex-gt-sm>
+                    <label>Vacants</label>
+                    <md-icon class="ion ion-ios-people icon-big"></md-icon>
+                    <input name="vacants" ng-model="ofert.vacants" type="number" min="1" step="1">
+                    <!-- <md-icon class="ion ion-social-usd icon-big"></md-icon> -->
+                  </md-input-container>
+            </div>
+            <!-- </form> -->
+        </div>
+          </md-dialog-content>
+      <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()">
+         Not create
+        </md-button>
+        <md-button ng-click="answer()" class="md-primary" ng-disabled="">
+          Create
+        </md-button>
+      </md-dialog-actions>
+    </form>
+</md-dialog>

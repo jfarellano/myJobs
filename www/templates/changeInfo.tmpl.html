@@ -1,0 +1,109 @@
+<md-dialog>
+   
+    <form ng-cloak>
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <h2>Update your {{action}}</h2>
+          <!-- <h2>Update your e-mail {{questList}}</h2> -->
+          <!-- <h2>Update your e-mail {{perfilData}}</h2> -->
+          <span flex></span>
+          <!-- <md-button class="md-icon-button" ng-click="cancel()">
+            <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+          </md-button> -->
+        </div>
+      </md-toolbar>
+  
+      <md-dialog-content>
+        <div class="md-dialog-content">
+          <!-- <form name="userForm"> -->
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action == 'password' || action == 'career' || action == 'semester'">
+              <label for="input-form">{{action}}</label>
+              <input id="input-form" type="text" name="input" ng-model="newInfo" placeholder="new {{action}}" auto-focus='true' 
+              />
+              
+              <div class="hint" ng-show="showHints"> How can we reach you?</div>
+              
+              <!-- <div ng-messages="userForm.email.$error" ng-hide="showHints">
+                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                  Your email must be between 10 and 100 characters long and look like an e-mail address.
+                </div>
+              </div> -->
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action != 'password'">
+              <label for="input-form--password">Old password</label>
+              <input id="input-form--password" type="password" name="oldPassword" ng-model="oldPassword"/>
+              <div class="hint" ng-show="showHints"> How can we reach you?</div>
+              
+              <!-- <div ng-messages="userForm.email.$error" ng-hide="showHints">
+                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                  Your email must be between 10 and 100 characters long and look like an e-mail address.
+                </div>
+              </div> -->
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action != 'email' && action != 'password'">
+              <label for="input-form--password">Password</label>
+              <input id="input-form--password" type="password" name="password" ng-model="password"/>
+              
+              <div class="hint" ng-show="showHints"> How can we reach you?</div>
+              
+              <!-- <div ng-messages="userForm.email.$error" ng-hide="showHints">
+                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                  Your email must be between 10 and 100 characters long and look like an e-mail address.
+                </div>
+              </div> -->
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action != 'career'">
+                <label>Career</label>
+                <md-select name="type" ng-model="newInfo" >
+                    <md-option ng-value="undefined">Todas</md-option>
+                    <md-option ng-value="key" ng-repeat="(key,val) in careers">{{key | careerDisplay | titleCase}}</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action != 'semester'">
+                <label>Semestre</label>
+                <md-select name="type" ng-model="newInfo">
+                        <md-option ng-value="undefined">Todos</md-option>
+                        <md-option ng-value="1">1</md-option>
+                        <md-option ng-value="2">2</md-option>
+                        <md-option ng-value="3">3</md-option>
+                        <md-option ng-value="4">4</md-option>
+                        <md-option ng-value="5">5</md-option>
+                        <md-option ng-value="6">6</md-option>
+                        <md-option ng-value="7">7</md-option>
+                        <md-option ng-value="8">8</md-option>
+                        <md-option ng-value="9">9</md-option>
+                        <md-option ng-value="10">10</md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-sm ng-hide="action != 'password'">
+              <label for="input-form--confirm-password">Confirm password</label>
+              <input id="input-form--confirm-password" type="password" name="confirm-password" ng-model="confirmPassword"/>
+              
+              <div class="hint" ng-show="showHints"> How can we reach you?</div>
+              
+              <!-- <div ng-messages="userForm.email.$error" ng-hide="showHints">
+                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                  Your email must be between 10 and 100 characters long and look like an e-mail address.
+                </div>
+              </div> -->
+            </md-input-container>
+            <!-- </form> -->
+        </div>
+          </md-dialog-content>
+      <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()">
+         Not update
+        </md-button>
+        <md-button ng-click="answer(newInfo)" class="md-primary" ng-disabled="oldInfo == newInfo" ng-if="action != 'password' && action != 'email'">
+          Update
+        </md-button>
+        <md-button ng-click="answer(newInfo)" class="md-primary" ng-disabled="password != confirmPassword || password == '' || oldPassword ==''" ng-if="action == 'password'">
+          Update
+        </md-button>
+        <md-button ng-click="answer(newInfo)" class="md-primary" ng-disabled="oldInfo == newInfo || password == ''" ng-if="action == 'email'">
+          Update
+        </md-button>
+      </md-dialog-actions>
+    </form>
+</md-dialog>

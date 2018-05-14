@@ -1,0 +1,54 @@
+<ion-view view-title="MyJobs">
+        <ion-content>
+            <div class="bar bar-subheader bar-stable static text-center">
+                <strong class="title">Aplicaciones</strong>
+            </div>
+            <div class="im-wrapper">
+                <!-- List view -->
+                <!-- {{applications}} -->
+                <!-- {{Object.keys(applications)}} -->
+                <div class="list card stable-bg" ng-if="applications.length == 0">
+                    <div class="item item-avatar">
+                            <img src="img/material4.jpg">
+                            <!-- <h1>{{job.$id}}</h1> -->
+                            <h2><strong>Aún no hay aplicaciones para alguno de tus trabajos</strong></h2>
+                    </div>
+                </div>
+                <div class="list card stable-bg" ng-repeat="application in applications">
+                        <div class="item item-avatar">
+                            <img src="img/arya.jpg">
+                            <!-- <h1>{{job.$id}}</h1> -->
+                            <h2><strong>{{application.job.name}}</strong></h2>
+                            <p><strong>Postulado:</strong><br><h2>{{application.application.$value}}</h2></p>
+                            <!-- <h3>{{job.name}}</h3> -->
+                        </div>
+                        <!-- <div class="item item-body">
+                            {{job.description}}
+                        </div>
+                        <div class="item item-body">
+                            <i class="ion ion-cash icon-big">&nbsp;</i>
+                            {{job.salary}} &dollar;
+                        </div>
+                        <div class="item">
+                            <i class="ion ion-ios-person icon-big">&nbsp;</i>
+                            {{job.contact_name}}
+                        </div>
+                        <div class="item">
+                            <i class="ion ion-android-call icon-big">&nbsp;</i>
+                            {{job.contact_phone}}
+                        </div>
+                        <div class="item">
+                            <i class="ion ion-calendar icon-big">&nbsp;</i>
+                            {{job.start_date}} - {{job.end_date}}
+                            {{userJobs}}
+                        </div> -->
+                        <div class="item tabs tabs-secondary tabs-icon-left" ng-if="true">
+                                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
+                                    <i class="icon ion-android-checkbox-outline" ng-click="accept(application, $index)"></i> Aceptar
+                                </a>
+                        </div>
+                </div>
+            </div>
+        </ion-content>
+    </ion-view>
+    

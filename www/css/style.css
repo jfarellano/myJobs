@@ -219,3 +219,107 @@ margin-top:10px;
 .login-form{
     margin: 30% 0px;
 }
+
+.dialogdemoBasicUsage #popupContainer {
+    position: relative; }
+  
+.dialogdemoBasicUsage .footer {
+width: 100%;
+text-align: center;
+margin-left: 20px; }
+
+.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+font-size: 0.8em;
+margin-top: 50px; }
+
+.dialogdemoBasicUsage button {
+width: 200px; }
+
+.dialogdemoBasicUsage div#status {
+color: #c60008; }
+
+.dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+margin-bottom: 0; }
+
+.profile-info {
+    /* text-transform: */
+    text-align: center;
+    margin: 10px;
+}
+
+.profile-info .md-button {
+    min-width: 40px;
+    border-radius: 50px;
+}
+
+.md-input {
+    /* color: rgba(0,0,0,0.87) !important; */
+    border-color: rgba(0,0,0,0.12) !important;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: blue !important;
+}
+
+.icon-big {
+    font-size: 25px;
+}
+
+.item-profile {
+    margin-bottom: 20px;
+}
+
+.item-profile h2{
+    font-size: 25px;
+}
+
+.item-profile h4{
+    font-size: 19px;
+}
+
+.button-add-friend {
+    padding: 0 2rem !important;
+    border-radius: 0 !important;
+}
+
+.job-label {
+    float: right;
+    position: relative;
+    display: inline-block;
+    padding: 5px 15px;
+    font-weight: 700;
+    color: #FFF;
+    background-color: #30323A;
+    margin-top: 15px;
+    margin-right: 15px;
+} 
+
+.friend-label {
+    /* float: left; */
+    position: relative;
+    display: inline-block;
+    padding: 1px 10px;
+    border-radius: 10px;
+    font-weight: 300;
+    color: #FFF;
+    background-color: #30323A;
+    /* margin-top: 15px; */
+    /* margin-right: 15px; */
+} 
+
+.bar-search {
+    min-height: 70px;
+}
+.search {
+    text-align: left;
+    font-size: 16px;
+    margin: 20px 10px;
+}
+
+.item-left {
+    text-align: left;
+}
+
+.profile-info--username h4 {
+        display: inline-block;
+}

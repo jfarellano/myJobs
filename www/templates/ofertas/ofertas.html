@@ -1,29 +1,72 @@
 ﻿
-<ion-view view-title="MyJobs">
-    <button ng-click="fab()" class="button button-positive button-fab button-fab-bottom-right">
+<ion-view view-title="Ofertas de trabajo">
+    <!-- <button ng-if="!userData.is_company" ng-click="fab()" class="button button-positive button-fab button-fab-bottom-right">
         <i class="icon ion-search"></i>
+    </button> -->
+    <button ng-if="userData.is_company" ng-click="showAdvanced(event)" class="button button-positive button-fab button-fab-bottom-right">
+        <i class="icon ion-plus"></i>
     </button>
     <ion-content>
-        <div class="bar bar-subheader bar-stable static text-center">
-            <strong class="title">Ofertas de trabajo</strong>
+        <div class="bar bar-subheader bar-stable static text-center bar-search">
+                <!-- <strong class="title">Search</strong> -->
+                <div layout="row">
+                    <md-input-container class="search" flex="50">
+                    <label>Nombre</label>
+                    <input name="clientName" ng-model="search.name">
+                    </md-input-container>
+                    <md-input-container class="search" flex="50">
+                    <label>Descripción</label>
+                    <input name="clientName" ng-model="search.description">
+                    </md-input-container>
         </div>
         <div class="im-wrapper">
             <!-- List view -->
-            <div class="list card stable-bg">
-                    <div class="item item-avatar">
+            <div class="list card stable-bg" ng-if="jobs.length == 0">
+                <div class="item item-avatar">
+                        <img src="img/material4.jpg">
+                        <!-- <h1>{{job.$id}}</h1> -->
+                        <h2><strong>Aún no hay ofertas de algún trabajos</strong></h2>
+                </div>
+            </div>
+            <div class="list card stable-bg" ng-repeat="job in jobs | filter:search">
+                <div class="item item-avatar">
                         <img src="img/arya.jpg">
-                        <h2>Empresa de la oferta</h2>
-                        <p>Descripcion de la oferta de trabajo</p>
+                        <div class="job-label"  ng-if="job.hired_users < job.vacants">
+                            <span >Full</span>              
+                        </div>    
+                        <!-- <h1>{{job.$id}}</h1> -->
+                        <h2>{{job.name}}</h2>
+                        <h3>{{job.owner_name}} Company</h3>
+                        <h4>{{job.career | careerDisplay | titleCase}}</h4>
                     </div>
                     <div class="item item-body">
-                        Requerimientos de la oferta de trabajo
+                        <!-- Requerimientos de la oferta de trabajo: -->
+                        <!-- <br> -->
+                        {{job.description}}
                     </div>
-                    <div class="item tabs tabs-secondary tabs-icon-left">
+                    <div class="item item-body">
+                        <i class="ion ion-cash icon-big">&nbsp;</i>
+                        {{job.salary}} &dollar;
+                    </div>
+                    <div class="item">
+                        <i class="ion ion-ios-person icon-big">&nbsp;</i>
+                        {{job.contact_name}}
+                    </div>
+                    <div class="item">
+                        <i class="ion ion-android-call icon-big">&nbsp;</i>
+                        {{job.contact_phone}}
+                    </div>
+                    <div class="item">
+                        <i class="ion ion-calendar icon-big">&nbsp;</i>
+                        {{job.start_date}} - {{job.end_date}}
+                        <!-- {{userJobs}} -->
+                    </div>
+                    <div class="item tabs tabs-secondary tabs-icon-left" ng-if="!userData.is_company && (!job.working && !job.applying) && (job.hired_users < job.vacants)">
                             <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-                                <i class="icon ion-android-checkbox-outline"></i> Aplicar
+                                <i class="icon ion-android-checkbox-outline" ng-click="apply(job)"></i> Aplicar
                             </a>
-                        </div>
-                </div>
+                    </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

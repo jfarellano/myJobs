@@ -1,17 +1,19 @@
-﻿<ion-view view-title="MyJobs">
-    <button ng-click="fab()" class="button button-positive button-fab button-fab-bottom-right">
-        <i class="icon ion-search"></i>
-    </button>
+﻿<ion-view view-title="Amigos">
     <ion-content>
-        <div class="bar bar-subheader bar-stable static text-center">
-            <strong class="title">Mis amigos</strong>
+        <div class="bar bar-subheader bar-stable static text-center bar-search">
+                    <!-- <strong class="title">Search</strong> -->
+            <div layout="row">
+            <md-input-container class="search" flex="100">
+            <label>Nombre</label>
+            <input name="clientName" ng-model="search.$value">
+            </md-input-container>
+            </div>
         </div>
         <div class="im-wrapper">
             <!-- List view -->
-            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="fab()">
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="showProfile(user.$id)" ng-repeat="user in userFriends | filter:search">
                 <img src="img/material4.jpg">
-                <h2>Nombre del amigo</h2>
-                <p>Mensaje del amigo</p>
+                <h2><strong>{{user.$value}}</strong></h2>
                 <!--<i class="icon ion-chatbubble muted"></i>-->
             </ion-item>
         </div>

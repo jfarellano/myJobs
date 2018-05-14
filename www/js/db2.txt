@@ -1,0 +1,43 @@
+-users  
+user_id (same auth uid)
+email
+ (retrive from auth)
+password (on auth)
+username (optional, unique) 
+
+name 
+lastname 
+career
+semester (1-99)
+is_company
+
+-careers (List, optional)
+careers_value : true
+
+-companies
+user_id : Description
+
+-jobs
+company_id : company.name
+name
+
+description
+salary
+
+available(Boolean)
+
+
+vacants
+
+-job_hires
+job_id : { user_id : { user.name, vacant_number } }
+
+-user_jobs
+user_id : { job_id : job.name }
+
+
+-
+Friendship
+
+person_id
+ : person_id

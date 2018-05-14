@@ -1,6 +1,9 @@
-﻿app.controller('amigosCtrl', function ($scope, $window) {
+﻿app.controller('amigosCtrl', function ($scope, $state, $window, userFriends) {
+    console.log(userFriends)
+    $scope.userFriends = userFriends
 
-    $scope.fab = function(){
-        $window.open('https://twitter.com/satish_vr2011', '_blank');
+    $scope.showProfile = function (user_id) {
+        console.log(user_id)
+        $state.go('app.userShow', {id: user_id}, { reload: true })
     }
 });

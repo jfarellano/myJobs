@@ -14,15 +14,21 @@
         <ion-header-bar class="expanded">
             <img src="img/logo.png" class="avatar motion spin fade">
             <div class="menu-bottom">
-                User name
+                {{userData.username}}
             </div>
         </ion-header-bar>
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
+                <ion-item nav-clear menu-close href="#/app/explorar" ng-if="!userData.is_company">
+                    Explorar
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/app/aplicaciones" ng-if="userData.is_company">
+                    Aplicaciones
+                </ion-item>
                 <ion-item nav-clear menu-close href="#/app/ofertas">
                     Ofertas
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/app/amigos">
+                <ion-item nav-clear menu-close href="#/app/amigos" ng-if="!userData.is_company">
                     Amigos
                 </ion-item>
                 <ion-item nav-clear menu-close href="#/app/empresas">
@@ -31,7 +37,7 @@
                 <ion-item nav-clear menu-close href="#/app/miperfil">
                     Mi perfil
                 </ion-item>
-                <ion-item nav-clear menu-close href="#/init/login">
+                <ion-item nav-clear menu-close ng-click="logout()">
                     Cerrar sesion
                 </ion-item>
             </ion-list>

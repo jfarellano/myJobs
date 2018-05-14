@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laboratory 2</title>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAYzYMrS9nzhg-a_mRt8S-SGYQcwhBCmL8",
+            authDomain: "myjobs-uninorte.firebaseapp.com",
+            databaseURL: "https://myjobs-uninorte.firebaseio.com",
+            projectId: "myjobs-uninorte",
+            storageBucket: "myjobs-uninorte.appspot.com",
+            messagingSenderId: "951786428154"
+        };
+        firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+
+<h3>Documentation</h3>
+
+<h3>Users CRUD</h3>
+
+<table>
+    <tr>
+        <td>Id: </td>
+        <td><input type="text" name="id" id="user_id" value="" /></td>
+    </tr>
+    <tr>
+        <td>username: </td>
+        <td><input type="text" name="username" id="username" value="" /></td>
+    </tr>
+    <tr>
+        <td>email: </td>
+        <td><input type="text" name="email" id="email" value=""/></td>
+    </tr>
+    <tr>
+        <td>password: </td>
+        <td><input type="text" name="password" id="password" value=""/></td>
+    </tr>
+    <tr>
+        <td>phone: </td>
+        <td><input type="text" name="phone" id="phone" value=""/></td>
+    </tr>
+    <tr>
+        <td>address: </td>
+        <td><input type="text" name="address" id="address" value=""/></td>
+    </tr>
+    <tr>
+        <td>name: </td>
+        <td><input type="text" name="name" id="name" value=""/></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Create" onclick="create_user();" />
+            <input type="button" value="Read" onclick="read_user();" />
+            <input type="button" value="Update" onclick="update_user();" />
+            <input type="button" value="Delete" onclick="delete_user();" />
+        </td>
+    </tr>
+</table>
+
+<h3>Users List</h3>
+
+<table id="users_panel">
+    <tr>
+        <table id="tbl_users_list" border="1">
+            <tr>
+                <td>#NO</td>
+                <td>USER_ID</td>
+                <td>USERNAME</td>
+                <td>EMAIL</td>
+                <td>PASSWORD</td>
+                <td>PHONE</td>
+                <td>ADDRESS</td>
+                <td>NAME</td>
+                <!-- <td>AUTH_ID</td> -->
+            </tr>
+        </table>
+    </tr>    
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Index" onclick="index_users();" />
+            <input type="button" value="Clear" onclick="clear_previous_index();" />
+        </td>
+    </tr>
+</table>
+
+<h3>User Login</h3>
+
+<table>
+    <tr>
+        <td>username: </td>
+        <td><input type="text" name="id" id="login_email" value="john-brs@hotmail.com" /></td>
+    </tr>
+    <tr>
+        <td>password: </td>
+        <td><input type="text" name="password" id="login_password" value="godmode01" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Sign In" onclick="sign_in();" />
+            <input type="button" value="Sign Out" onclick="sign_out();" />
+            <input type="button" value="Current User" onclick="display_current_user();" />
+        </td>
+    </tr>
+</table>
+
+<script>
+
+    //USERS SESSION
+    function create_user(){
+        var email = $("#email").val(); 
+        var password = $("#password").val();
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(function(result) {
+            var uid = result.uid; //firebase.database().ref().child('users').push().key;
+
+            var username = $("#username").val();
+            var phone = $("#phone").val();
+            var address = $("#address").val();
+            var name = $("#name").val();
+
+            // VALIDATIONS... NO EMPTY/INVALID PROMPTS, NO SAME PHONE, NO SAME USERNAME, USERNAME DOWNCASE
+
+            var user = {
+                user_id: uid,
+                username: username,
+                email: email,
+                phone: phone,
+                address: address,
+                name: name
+            }
+
+            var updates = {};
+            updates['/users/' + uid] = user;
+            firebase.database().ref().update(updates);
+
+            current_user();
+
+            alert('The user is created successfully!');
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            console.log(error);
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+        });
+    }
+
+    function read_user(){
+        var user_id = $("#user_id").val();
+
+        //VALIDATIONS... NO EMPTY/INVALID PROMPTS
+
+        firebase.database().ref('/users/' + user_id).once('value')
+        .then(function(snapshot) {
+            $("#user_id").val(snapshot.val().user_id);
+            $("#username").val(snapshot.val().username);
+            $("#email").val(snapshot.val().email); 
+            // $("#password").val(snapshot.val().password);
+            $("#phone").val(snapshot.val().phone);
+            $("#address").val(snapshot.val().address);
+            $("#name").val(snapshot.val().name);
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            console.log(error);
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+        });
+    }
+
+    function update_user(){
+        var user_id = $("#user_id").val();//currentUser["user_id"];
+        var username = $("#username").val();
+        var email = $("#email").val(); 
+        var password = $("#password").val();
+        var phone = $("#phone").val();
+        var address = $("#address").val();
+        var name = $("#name").val();
+
+        //VALIDATIONS... NO EMPTY/INVALID PROMPTS, NO SAME PHONE, NO SAME USERNAME
+
+        firebase.database().ref('/users/' + user_id).once('value')
+        .then(function(snapshot) {
+            var data = {
+                user_id: user_id,
+                // auth_id: snapshot.val().auth_id,
+                username: username,
+                email: email,
+                password: password,
+                phone: phone,
+                address: address,
+                name: name
+            }
+
+            var updates = {};
+            updates['/users/' + user_id] = data;
+            firebase.database().ref().update(updates);
+
+            // var user = firebase.auth().currentUser;
+
+            // sign_in();
+
+            // user.updateEmail(email).then(function() {
+            //     // Update successful.
+            //     console.log("email update");
+            // }).catch(function(error) {
+            //     // An error happened.
+            //     console.log("email update error");
+            //     console.log(error);
+            // });
+
+            // sign_in();
+
+            // user.updatePassword(password).then(function() {
+            //     // Update successful.
+            //     console.log("password update");
+            // }).catch(function(error) {
+            //     // An error happened.
+            //     console.log("password update error");
+            //     console.log(error);
+            // });
+
+            // alert('The user is updated successfully!');
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            console.log(error);
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+            alert('The user update failed!');
+        });
+    }
+
+    function delete_user(){
+        var user = firebase.auth().currentUser;
+
+        if (user != null) {
+            user.delete().then(function() {
+                // User deleted.
+                firebase.database().ref().child('/users/' + currentUser["user_id"]).remove();
+                alert('The user is deleted successfully!');
+            }).catch(function(error) {
+                // An error happened.
+                alert('The user delete action failed!');
+            }); 
+        } else {
+            alert('The user delete action failed!');
+        }
+    }
+
+    function index_users(){
+        clear_previous_index();
+
+        // var tblUsers = $('tbl_users_list');
+        var databaseRef = firebase.database().ref('users/');
+        // var databaseRef = firebase.database().ref().child('/users/');
+        var rowIndex = 1;
+
+        databaseRef.once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+
+                var tr = (
+                  '<tr>' +
+                    '<td>'+ rowIndex +'</td>'+
+                    '<td>'+ childData.user_id +'</td>'+
+                    '<td>'+ childData.username +'</td>'+
+                    '<td>'+ childData.email +'</td>'+
+                    '<td>'+ childData.password +'</td>'+
+                    '<td>'+ childData.phone +'</td>'+
+                    '<td>'+ childData.address +'</td>'+
+                    '<td>'+ childData.name +'</td>'+
+                    // '<td>'+ childData.auth_id +'</td>'+                    
+                  '</tr>'
+                );
+
+                $('#tbl_users_list > tbody:last-child').append(tr);
+
+                rowIndex = rowIndex + 1;
+            });
+        });
+    }
+    //END USERS SESSION
+
+    //USER LOGIN SESSION
+    function sign_in(){
+        var email = $("#login_email").val();
+        var password = $("#login_password").val();
+
+        //VALIDATIONS...
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function(result){
+            // Sign-in successful.
+            current_user();
+            alert('User signed in!');
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            console.log(error);
+            // var errorCode = error.code;
+            // var errorMessage = error.message;
+        });
+    }
+
+    function sign_out(){
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            currentUser = {};
+            display_current_user();
+            alert('Sign-out successful!');
+        });
+    }
+
+    var currentUser = {};
+
+    function current_user(){
+        var user = firebase.auth().currentUser;
+
+        if (user != null) {
+            // Create a reference to the users collection
+            var usersRef = firebase.database().ref("users/" + user.uid).once('value')
+            .then(function(snapshot) {
+                    currentUser["user_id"] = snapshot.val().user_id;
+                    currentUser["username"] = snapshot.val().username;
+                    currentUser["email"] = snapshot.val().email;
+                    currentUser["password"] = snapshot.val().password;
+                    currentUser["phone"] = snapshot.val().phone;
+                    currentUser["address"] = snapshot.val().address;
+                    currentUser["name"] = snapshot.val().name;
+            })
+            .catch(function(error) {
+                // Handle Errors here.
+                console.log(error);
+                // var errorCode = error.code;
+                // var errorMessage = error.message;
+            });
+
+            // .orderByChild("auth_id").equalTo(user.uid).on('value', function(snapshot) {
+
+            //     console.log(snapshot);
+            //     snapshot.forEach(function(childSnapshot) {
+
+            //         var childKey = childSnapshot.key;
+            //         var childData = childSnapshot.val();
+
+            //         currentUser["user_id"] = childData.user_id;
+            //         // currentUser["auth_id"] = user.uid;
+            //         currentUser["username"] = childData.username;
+            //         currentUser["email"] = childData.email;
+            //         currentUser["password"] = childData.password;
+            //         currentUser["phone"] = childData.phone;
+            //         currentUser["address"] = childData.address;
+            //         currentUser["name"] = childData.name;
+            //     });       
+            // });
+        } else {
+            // No user is signed in.
+            alert('No user is signed in!');
+        }
+
+        //LA FUNCION DE ABAJO HACE EXACTAMENTE LO MSIMO QUE LA DE ARRIBA, pero onAuthStateChanged 
+        //es un metodo que esta pendiente de que hay en auth, entonces y se ejectuta cuando hay un 
+        //cambio, no importa si alguien se logueo o se salio, si ya se ejecuto queda con cierta 
+        //autonomia y se vuele a ejecutar 
+
+        // firebase.auth().onAuthStateChanged(function(user) {
+        //     if (user) {
+        //         // Create a reference to the cities collection
+        //         var usersRef = firebase.database().ref("users")
+        //         .orderByChild("auth_id").equalTo(user.uid).on('value', function(snapshot) {
+        //             snapshot.forEach(function(childSnapshot) {
+        //                 var childKey = childSnapshot.key;
+        //                 var childData = childSnapshot.val();
+
+        //                 $("#user_id").val(childData.user_id);
+        //                 $("#username").val(childData.username);
+        //                 $("#email").val(childData.email); 
+        //                 $("#password").val(childData.password);
+        //                 $("#phone").val(childData.phone);
+        //                 $("#address").val(childData.address);
+        //                 $("#name").val(childData.name);
+
+        //                 alert('User signed in !');
+        //             });       
+        //         });           
+        //     } else {
+        //         // No user is signed in.
+        //         alert('No user is signed in successfully!');
+        //     }
+        // });
+    }
+
+    function display_current_user(){
+        $("#user_id").val(currentUser["user_id"]);
+        $("#username").val(currentUser["username"]);
+        $("#email").val(currentUser["email"]); 
+        $("#password").val(currentUser["password"]);
+        $("#phone").val(currentUser["phone"]);
+        $("#address").val(currentUser["address"]);
+        $("#name").val(currentUser["name"]);
+    }
+
+    function clear_previous_index(){
+        $('#tbl_users_list tr').remove();
+
+        var tr = (
+            '<tr>' +
+              '<td>#NO</td>' +
+              '<td>USER_ID</td>' +
+              '<td>USERNAME</td>' +
+              '<td>EMAIL</td>' +
+              '<td>PASSWORD</td>' +
+              '<td>PHONE</td>' +
+              '<td>ADDRESS</td>' +
+              '<td>NAME</td>' +
+              // '<td>AUTH_ID</td>' +
+            '</tr>'
+        );
+
+        $('#tbl_users_list > tbody:last-child').append(tr);
+    }
+    //END USER LOGIN SESSION
+</script>
+
+</body> 
+</html>
